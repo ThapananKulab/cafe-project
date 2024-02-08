@@ -4,25 +4,13 @@ var bodyParser = require('body-parser');
 var app = express();
 var jsonParser = bodyParser.json()
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
-const mongoose = require('mongoose');
+var cookieParser = require('cookie-parser')
+const mysql = require('mysql2');
+
+
 app.use(cors());
 
 
-//database
-mongoose.Promise = global.Promise;
-const db = mongoose.connection;
-db.on('error',(error)=>console.log(error));
-db.once('open',()=>console.log('Database Already'))
-
-//connectdatabase
-mongoose.connect('mongodb+srv://nicekrubma10:kulab12345@cluster0.uqjxafb.mongodb.net/?retryWrites=true&w=majority',
-{ useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-
-app.listen(3000,() => {
-    console.log("App listening on port 3000")
-})
 app.post('/login', jsonParser, function (req, res) {
     const { username } = req.body;
     const responseData = {
@@ -45,3 +33,17 @@ app.post('/register', jsonParser, async function (req, res, next) {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+
+//database
+// mongoose.Promise = global.Promise;
+// const db = mongoose.connection;
+// db.on('error',(error)=>console.log(error));
+// db.once('open',()=>console.log('Database Already'))
+// mongoose.connect('mongodb+srv://nicekrubma10:kulab12345@cluster0.uqjxafb.mongodb.net/?retryWrites=true&w=majority',
+// { useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// })
+// app.listen(3000,() => {
+//     console.log("App listening on port 3000")
+// })
