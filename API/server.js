@@ -18,9 +18,6 @@ app.post('/login', jsonParser, async (req, res) => {
 
 });
 
-
-
-
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error',(error)=>console.log(error));
