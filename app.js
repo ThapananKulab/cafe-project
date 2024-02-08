@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var app = express();
 var jsonParser = bodyParser.json()
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
+const mysql = require('mysql2');
 app.use(cors());
 
 app.post('/login', jsonParser, function (req, res) {
@@ -28,7 +29,6 @@ app.post('/register', jsonParser, async function (req, res, next) {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-
 
   app.listen(3333,() => {
     console.log("App listening on port 3333")
