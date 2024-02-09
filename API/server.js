@@ -5,9 +5,10 @@ var app = express();
 var jsonParser = bodyParser.json()
 // var urlencodedParser = bodyParser.urlencoded({ extended: false });
 const mongoose = require('mongoose');
-const User = require('./models/User')
-
-
+const User = require('./models/User');
+const bcryptjs = require('bcryptjs');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 // var cookieParser = require('cookie-parser')
 // var jwt = require('jsonwebtoken');
 
@@ -16,17 +17,30 @@ app.use(cors());
 app.get ('/',(req,res)=>{
     res.send("Server is running");
 });
-app.post('/login', jsonParser, async (req, res) => {
-    const { username, password } = req.body;
-});
 
-app.get('/check-db', (req, res) => {
-    if (mongoose.connection.readyState === 1) {
-        res.send('MongoDB is connected');
-    } else {
-        res.send('MongoDB is not connected');
+
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+    try {
+        const user = await User.findOne({ username: username });
+        if (user) {
+            const match = await bcryptjs.compare(password, user.password);
+            if (match) { 
+                res.json({ message: "Success" });
+            } else {
+                res.json({ message: "The password is incorrect" });
+            }
+        } else {
+            res.json({ message: "No record found for this email" });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
     }
 });
+
+
+
 
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;

@@ -103,7 +103,7 @@ export default function SignIn() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                เข้าสู่ระบบ
+                Sign In
               </Button>
             </Box>
           </Box>
