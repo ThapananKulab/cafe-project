@@ -17,7 +17,6 @@ app.get ('/',(req,res)=>{
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     try {
