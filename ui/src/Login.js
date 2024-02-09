@@ -62,7 +62,7 @@ export default function SignIn() {
           <CssBaseline />
           <Box
             sx={{
-              marginTop: 25,
+              marginTop: 7,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -103,7 +103,7 @@ export default function SignIn() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                เข้าสู่ระบบ
               </Button>
             </Box>
           </Box>

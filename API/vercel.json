@@ -1,0 +1,16 @@
+{
+    "version": 2,
+    "rewrites": [
+      {
+        "src": "/api/(.*)",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "/"
+      }
+    ]
+  }
+  

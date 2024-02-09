@@ -13,6 +13,9 @@ const User = require('./models/user.js')
 
 app.use(cors());
 
+app.get ('/',(req,res)=>{
+    res.send("Server is running");
+});
 app.post('/login', jsonParser, async (req, res) => {
     const { username, password } = req.body;
 
