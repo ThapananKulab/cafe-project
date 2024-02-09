@@ -23,10 +23,11 @@ app.post('/login', jsonParser, async (req, res) => {
 
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
-db.on('error',(error)=>console.log(error));
-db.once('open',()=>console.log('Database Already'))
-mongoose.connect('mongodb+srv://nicekrubma10:kulab12345@cluster0.uqjxafb.mongodb.net/?retryWrites=true&w=majority',
-{useNewUrlParser: true,useUnifiedTopology: true})
-app.listen(3333,() => {
-    console.log("App listening on port 3333")
-})
+db.on('error', (error) => console.log(error));
+db.once('open', () => console.log('Database Already'));
+mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://nicekrubma10:kulab12345@cluster0.uqjxafb.mongodb.net/?retryWrites=true&w=majority');
+app.listen(process.env.PORT || 3333, () => {
+  console.log(`App listening on port ${process.env.PORT || 3333}`);
+});
+
+
