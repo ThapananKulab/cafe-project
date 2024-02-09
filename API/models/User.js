@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs'); // Require bcryptjs instead of bcrypt
 const moment = require('moment-timezone');
 
 const UserSchema = new mongoose.Schema({
@@ -66,4 +66,5 @@ UserSchema.methods.verifyPassword = async function (password) {
     throw error;
   }
 };
+
 module.exports = mongoose.model('User', UserSchema);
