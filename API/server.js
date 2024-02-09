@@ -18,7 +18,14 @@ app.get ('/',(req,res)=>{
 });
 app.post('/login', jsonParser, async (req, res) => {
     const { username, password } = req.body;
+});
 
+app.get('/check-db', (req, res) => {
+    if (mongoose.connection.readyState === 1) {
+        res.send('MongoDB is connected');
+    } else {
+        res.send('MongoDB is not connected');
+    }
 });
 
 mongoose.Promise = global.Promise;
