@@ -7,17 +7,16 @@ var jsonParser = bodyParser.json()
 const mongoose = require('mongoose');
 const User = require('./models/User');
 const bcryptjs = require('bcryptjs');
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 // var cookieParser = require('cookie-parser')
 // var jwt = require('jsonwebtoken');
 
 app.use(cors());
-
 app.get ('/',(req,res)=>{
     res.send("Server is running");
 });
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
@@ -38,8 +37,6 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 });
-
-
 
 
 mongoose.Promise = global.Promise;
