@@ -5,7 +5,7 @@ var app = express();
 var jsonParser = bodyParser.json()
 // var urlencodedParser = bodyParser.urlencoded({ extended: false });
 const mongoose = require('mongoose');
-const User = require('./models/User.js')
+const User = require('./models/User')
 
 
 // var cookieParser = require('cookie-parser')
