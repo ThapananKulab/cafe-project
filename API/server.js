@@ -8,7 +8,8 @@ const mongoose = require('mongoose');
 const User = require('./models/User');
 const bcryptjs = require('bcryptjs');
 // var cookieParser = require('cookie-parser')
-// var jwt = require('jsonwebtoken');
+var jwt = require('jsonwebtoken');
+const secret = 'Fullstack'
 
 app.use(cors());
 app.get ('/',(req,res)=>{
@@ -17,25 +18,6 @@ app.get ('/',(req,res)=>{
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.post('/login', async (req, res) => {
-    const { username, password } = req.body;
-    try {
-        const user = await User.findOne({ username: username });
-        if (user) {
-            const match = await bcryptjs.compare(password, user.password);
-            if (match) { 
-                res.json({ message: "Success" });
-            } else {
-                res.json({ message: "The password is incorrect" });
-            }
-        } else {
-            res.json({ message: "No record found for this email" });
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Internal server error" });
-    }
-});
 
 
 mongoose.Promise = global.Promise;
@@ -47,4 +29,36 @@ app.listen(process.env.PORT || 3333, () => {
   console.log(`App listening on port ${process.env.PORT || 3333}`);
 });
 
+//api
+app.post('/login', jsonParser, async (req, res) => {
+    const { username, password } = req.body;
+    try {
+        const user = await User.findOne({ username: username });
+        if (user) {
+            const match = await bcryptjs.compare(password, user.password);
+            if (match) { 
+                // Generate a token
+                var token = jwt.sign({ username: user.username }, secret, { expiresIn: '1h' }); // Added the expiresIn option for token expiration
+                res.json({ message: "Success", token: token });
+            } else {
+                res.json({ message: "The password is incorrect" });
+            }
+        } else {
+            res.json({ message: "No record found for this username" }); // Changed "email" to "username" for consistency
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
 
+app.post('/authen', jsonParser, (req, res) => {
+    try{
+        const token = req.headers.authorization.split(' ')[1]
+        var decoded = jwt.verify(token, secret);
+        res.json({status:'ok',decoded})
+        res.json({ decoded });
+    }catch(err){
+        res.json({status:'error',message: err.message})
+    }
+});

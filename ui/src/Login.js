@@ -23,8 +23,6 @@ function Copyright(props) {
   );
 }
 
-
-
 export default function SignIn() {
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -46,17 +44,26 @@ export default function SignIn() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),  // Stringify the JavaScript object
+        body: JSON.stringify(data),
       });
-
-      console.log("Response:", response);
-
+    
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+    
       const result = await response.json();
-      console.log("Success:", result);
+      if (result.message === "Success") {
+        localStorage.setItem('token',data.token)
+        window.location = '/Dashboard'
+        alert('Success');
+      } else {
+        alert(result.message);
+        window.location = '/login'
+      }
     } catch (error) {
       console.error("Error:", error);
     }
-  };
+  };    
   
     return (
       <ThemeProvider theme={defaultTheme}>
