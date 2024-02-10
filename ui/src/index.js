@@ -11,7 +11,7 @@ import Dashboard from './Dashboard.js'
 import Pos from './Pos.js'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+root.render(//
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Login/>} />
