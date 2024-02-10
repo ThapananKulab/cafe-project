@@ -37,15 +37,14 @@ app.post('/login', jsonParser, async (req, res) => {
         const user = await User.findOne({ username: username });
         if (user) {
             const match = await bcryptjs.compare(password, user.password);
-            if (match) { 
-                // Generate a token
-                var token = jwt.sign({ username: user.username }, secret, { expiresIn: '1h' }); // Added the expiresIn option for token expiration
+            if (match) {
+                var token = jwt.sign({ username: user.username }, secret, { expiresIn: '1h' });
                 res.json({ message: "Success", token: token });
             } else {
                 res.json({ message: "The password is incorrect" });
             }
         } else {
-            res.json({ message: "No record found for this username" }); // Changed "email" to "username" for consistency
+            res.json({ message: "No record found for this username" }); 
         }
     } catch (error) {
         console.error(error);
