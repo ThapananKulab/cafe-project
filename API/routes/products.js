@@ -261,19 +261,3 @@ router.post('/updateU', upload.single('image'), async (req, res, next) => {
 });
 
 module.exports = router;
-
-// router.post('/update', async (req, res, next) => {
-//   try {
-//     const update_id = req.body.update_id;
-//     const data = {
-//       name: req.body.name,
-//       type: req.body.type,
-//       price: req.body.price,
-//     };
-//     await Product.findByIdAndUpdate(update_id, data, { useFindAndModify: false });
-//     res.redirect('/product');
-//   } catch (err) {
-//     console.error('Error updating product:', err);
-//     res.status(500).send('Internal Server Error');
-//   }
-// });
