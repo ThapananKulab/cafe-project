@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Swal from 'sweetalert2';
+
 
 const defaultTheme = createTheme();
 
@@ -57,8 +59,12 @@ export default function SignIn() {
         window.location = '/Dashboard'
        
       } else {
-        alert(result.message);
-        window.location = '/login'
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: result.message, // Show specific error message from the server
+        });
+
       }
     } catch (error) {
       console.error("Error:", error);
