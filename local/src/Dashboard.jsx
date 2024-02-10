@@ -1,4 +1,3 @@
-import './App.css'
 import Button from '@mui/material/Button'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useState } from 'react'
