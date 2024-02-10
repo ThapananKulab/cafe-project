@@ -16,10 +16,11 @@ app.get ('/',(req,res)=>{
     res.send("Server is running");
 });
 
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
+//database
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on('error', (error) => console.log(error));
@@ -29,7 +30,7 @@ app.listen(process.env.PORT || 3333, () => {
   console.log(`App listening on port ${process.env.PORT || 3333}`);
 });
 
-//api
+//api 
 app.post('/login', jsonParser, async (req, res) => {
     const { username, password } = req.body;
     try {
@@ -62,3 +63,19 @@ app.post('/authen', jsonParser, (req, res) => {
         res.json({status:'error',message: err.message})
     }
 });
+
+//api product
+const products = require('./routes/products')
+app.use('/products',products);
+
+//api typepros
+const typepros = require('./routes/typepros')
+app.use('/typepros',typepros);
+
+//Api add User
+const users = require('./routes/users')
+app.use('/users',users);
+
+//Api add Raw
+const raws = require('./routes/raws')
+app.use('/raws',raws);
