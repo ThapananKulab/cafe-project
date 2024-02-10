@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Login from './Login.js';
 import Dashboard from './Dashboard.js'
+import Pos from './Pos.js'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,6 +16,7 @@ root.render(
     <Routes>
       <Route path="/" element={<Login/>} />
       <Route path="/Dashboard" element={<Dashboard />} />
+      <Route path="/Pos" element={<Pos />} />
       
     </Routes>
   </BrowserRouter>
