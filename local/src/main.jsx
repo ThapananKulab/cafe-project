@@ -6,12 +6,10 @@ import Login from './Login'
 import Dashboard from './Dashboard'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/Dashboard" element={<Dashboard />} />
-      </Routes>
-    </BrowserRouter>
-  </React.StrictMode>
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/Dashboard" element={<Dashboard />} />
+    </Routes>
+  </BrowserRouter>
 )

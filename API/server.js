@@ -10,6 +10,15 @@ const bcryptjs = require('bcryptjs')
 // var cookieParser = require('cookie-parser')
 var jwt = require('jsonwebtoken')
 const secret = 'Fullstack'
+const expressSession = require('express-session')
+
+app.use(
+  expressSession({
+    secret: 'node secret',
+    saveUninitialized: true,
+    resave: false,
+  })
+)
 
 app.use(cors())
 
