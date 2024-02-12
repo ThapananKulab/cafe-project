@@ -8,6 +8,7 @@ const mongoose = require('mongoose')
 const User = require('./models/User')
 const bcryptjs = require('bcryptjs')
 // var cookieParser = require('cookie-parser')
+//
 var jwt = require('jsonwebtoken')
 const secret = 'Fullstack'
 const expressSession = require('express-session')
