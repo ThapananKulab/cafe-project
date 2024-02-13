@@ -27,7 +27,12 @@ const MemoryStore = require('memorystore')(expressSession)
 //   secret: 'Fullstack',
 // }));
 
-app.use(cors())
+// app.use(cors())
+app.use(cors({
+  origin: 'https://your-netlify-site-url.netlify.app',
+  // Other CORS options if needed
+}));
+
 
 app.get('/', (req, res) => {
   res.send('Server is running')

@@ -44,18 +44,17 @@ export default function SignIn() {
         throw new Error('Network response was not ok')
       }
 
-      const result = await response.json()
+      const result = await response.json();
       if (result.message === 'Success') {
-        localStorage.setItem('token', data.token)
-        // window.location = 'https://cafe-project-server11.onrender.com/Dashboard'
+        localStorage.setItem('token', result.token); // Corrected from data.token to result.token
         window.location.href = '/Dashboard';
       } else {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: result.message, // Show specific error message from the server
-        })
-      }
+          text: result.message,
+        });
+      }      
     } catch (error) {
       console.error('Error:', error)
     }
