@@ -29,8 +29,7 @@ const MemoryStore = require('memorystore')(expressSession)
 
 // app.use(cors())
 app.use(cors({
-  origin: 'https://your-netlify-site-url.netlify.app',
-  // Other CORS options if needed
+  origin: 'https://cafe-project-server11.onrender.com',
 }));
 
 
