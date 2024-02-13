@@ -9,13 +9,13 @@ const User = require('./models/User')
 const bcryptjs = require('bcryptjs')
 // var cookieParser = require('cookie-parser')
 
-//
 var jwt = require('jsonwebtoken')
 const secret = 'Fullstack'
 
 const expressSession = require('express-session')
 const MemoryStore = require('memorystore')(expressSession)
 
+app.use(express.static('dist'))
 
 app.use(expressSession({
   cookie: { maxAge: 86400000 },
