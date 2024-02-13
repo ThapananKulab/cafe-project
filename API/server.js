@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 })
 
 
-
+app.use(express.static(dist));
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
