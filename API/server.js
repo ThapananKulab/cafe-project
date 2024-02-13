@@ -8,18 +8,24 @@ const mongoose = require('mongoose')
 const User = require('./models/User')
 const bcryptjs = require('bcryptjs')
 // var cookieParser = require('cookie-parser')
+
 //
 var jwt = require('jsonwebtoken')
 const secret = 'Fullstack'
-const expressSession = require('express-session')
 
-app.use(
-  expressSession({
-    secret: 'node secret',
-    saveUninitialized: true,
-    resave: false,
-  })
-)
+const expressSession = require('express-session')
+const MemoryStore = require('memorystore')(expressSession)
+
+
+app.use(expressSession({
+  cookie: { maxAge: 86400000 },
+  store: new MemoryStore({
+    checkPeriod: 86400000, // prune expired entries every 24h
+  }),
+  resave: false,
+  saveUninitialized: true, // Add this line
+  secret: 'Fullstack',
+}));
 
 app.use(cors())
 
