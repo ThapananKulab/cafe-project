@@ -32,7 +32,7 @@ export default function SignIn() {
     })
 
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch('https://cafe-project-server11.onrender.com/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
