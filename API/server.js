@@ -15,7 +15,7 @@ const secret = 'Fullstack'
 const expressSession = require('express-session')
 const MemoryStore = require('memorystore')(expressSession)
 
-app.use(express.static('dist'))
+// app.use(express.static('dist'))
 
 app.use(expressSession({
   cookie: { maxAge: 86400000 },
