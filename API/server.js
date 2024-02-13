@@ -32,6 +32,9 @@ app.use(cors())
 app.get('/', (req, res) => {
   res.send('Server is running')
 })
+app.get('/mongo', (req, res) => {
+  res.send('Server is running')
+})
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
