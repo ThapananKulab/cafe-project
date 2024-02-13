@@ -42,7 +42,7 @@ useEffect(() => {
       {/* Display the products */}
       <ul>
         {products.map(product => (
-          <li key={product.id}>{product.name}</li>
+          <li key={product._id}>{product.productname}</li>
         ))}
       </ul>
     </div>

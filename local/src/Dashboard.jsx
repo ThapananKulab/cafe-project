@@ -7,7 +7,7 @@ const NavigationMenu = () => {
   const navigate = useNavigate();
 
   const navigation = [
-    { name: 'Product', onClick: () => navigate('/Products')},
+    { name: 'Product', href: '/Product'},
     { name: 'Features', href: '#' },
     { name: 'Marketplace', href: '#' },
     { name: 'Company', href: '#' },
