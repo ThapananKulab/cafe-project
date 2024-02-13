@@ -1,16 +1,19 @@
 import { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { useNavigate } from 'react-router-dom';
 
-const navigation = [
-  { name: 'Product', href: '/Product' },
-  { name: 'Features', href: '#' },
-  { name: 'Marketplace', href: '#' },
-  { name: 'Company', href: '#' },
-]
+const NavigationMenu = () => {
+  const navigate = useNavigate();
 
-export default function Example() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const navigation = [
+    { name: 'Product', href: '/Product'},
+    { name: 'Features', href: '#' },
+    { name: 'Marketplace', href: '#' },
+    { name: 'Company', href: '#' },
+  ];
+
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <div className="bg-white">
@@ -176,6 +179,8 @@ export default function Example() {
     </div>
   )
 }
+export default NavigationMenu;
+
 
 // import React from 'react'
 
