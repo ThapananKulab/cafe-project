@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
   res.send('Server is running')
 })
 
-//
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
@@ -61,12 +61,12 @@ app.post('/api/login', jsonParser, async (req, res) => {
         var token = jwt.sign({ username: user.username }, secret, {
           expiresIn: '1h',
         })
-        res.json({ message: 'เรียบร้อย', token: token })
+        res.json({ message: 'Success', token: token })
       } else {
-        res.json({ message: 'รหัสผิดพลาด' })
+        res.json({ message: 'The password is incorrect' })
       }
     } else {
-      res.json({ message: 'ไม่มีชื่อบัญชีและรหัสผ่านนี้' })
+      res.json({ message: 'No record found for this username' })
     }
   } catch (error) {
     console.error(error)
