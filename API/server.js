@@ -61,12 +61,12 @@ app.post('/api/login', jsonParser, async (req, res) => {
         var token = jwt.sign({ username: user.username }, secret, {
           expiresIn: '1h',
         })
-        res.json({ message: 'Success', token: token })
+        res.json({ message: 'เรียบร้อย', token: token })
       } else {
-        res.json({ message: 'The password is incorrect' })
+        res.json({ message: 'รหัสผิดพลาด' })
       }
     } else {
-      res.json({ message: 'No record found for this username' })
+      res.json({ message: 'ไม่มีชื่อบัญชีและรหัสผ่านนี้' })
     }
   } catch (error) {
     console.error(error)
