@@ -47,7 +47,7 @@ export default function SignIn() {
       const result = await response.json()
       if (result.message === 'Success') {
         localStorage.setItem('token', data.token)
-        window.location = '/Dashboard'
+        window.location = 'https://cafe-project-server11.onrender.com/Dashboard'
       } else {
         Swal.fire({
           icon: 'error',
