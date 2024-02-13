@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': 'http://localhost:3333',
+      '/api': 'https://cafe-project-server11.onrender.com',
     },
   },
 })
