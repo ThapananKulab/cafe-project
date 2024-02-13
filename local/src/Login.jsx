@@ -49,8 +49,8 @@ export default function SignIn() {
     
       const result = await response.json();
       if (result.message === 'Success') {
-        localStorage.setItem('token', result.token); // Update from data.token to result.token
-        navigate('/Dashboard'); // Redirect to the Dashboard route
+        localStorage.setItem('token', result.token); 
+        navigate('/Dashboard'); 
       } else {
         Swal.fire({
           icon: 'error',
