@@ -2,6 +2,7 @@ import * as React from 'react'
 import Typography from '@mui/material/Typography'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom';
 
 const defaultTheme = createTheme()
 
@@ -16,7 +17,9 @@ function Copyright(props) {
   )
 }
 
+
 export default function SignIn() {
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
@@ -31,7 +34,8 @@ export default function SignIn() {
       password: data.password,
     })
     try {
-      const response = await fetch('https://cafe-project-server11.onrender.com/api/login', {
+      // const response = await fetch('http://localhost:3333/api/login', {
+        const response = await fetch('https://cafe-project-server11.onrender.com/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,7 +50,7 @@ export default function SignIn() {
       const result = await response.json();
       if (result.message === 'Success') {
         localStorage.setItem('token', result.token); // Update from data.token to result.token
-        window.location.href = '/Dashboard';
+        navigate('/Dashboard'); // Redirect to the Dashboard route
       } else {
         Swal.fire({
           icon: 'error',
@@ -56,7 +60,6 @@ export default function SignIn() {
       }
     } catch (error) {
       console.error('Network Error:', error);
-      // Show a user-friendly error message to the user
       Swal.fire({
         icon: 'error',
         title: 'Network Error',
