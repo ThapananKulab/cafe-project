@@ -6,7 +6,7 @@ import Login from './Login';
 import Dashboard from './Dashboard';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <BrowserRouter basename="/iridescent-bombolone-9c386c.netlify.app">
+  <BrowserRouter>
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/Dashboard" element={<Dashboard />} />
