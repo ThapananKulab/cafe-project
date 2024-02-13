@@ -48,7 +48,7 @@ export default function SignIn() {
       if (result.message === 'Success') {
         localStorage.setItem('token', data.token)
         // window.location = 'https://cafe-project-server11.onrender.com/Dashboard'
-        navigate('/Dashboard')
+  
       } else {
         Swal.fire({
           icon: 'error',
