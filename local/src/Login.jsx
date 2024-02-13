@@ -30,7 +30,6 @@ export default function SignIn() {
       username: data.username,
       password: data.password,
     })
-
     try {
       const response = await fetch('https://cafe-project-server11.onrender.com/api/login', {
         method: 'POST',
@@ -38,28 +37,33 @@ export default function SignIn() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
-      })
-
+      });
+    
       if (!response.ok) {
-        throw new Error('Network response was not ok')
+        throw new Error('Network response was not ok');
       }
-
-      const result = await response.json()
+    
+      const result = await response.json();
       if (result.message === 'Success') {
-        localStorage.setItem('token', data.token)
-        // window.location = 'https://cafe-project-server11.onrender.com/Dashboard'
+        localStorage.setItem('token', result.token); // Update from data.token to result.token
         window.location.href = '/Dashboard';
       } else {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: result.message, // Show specific error message from the server
-        })
+          text: result.message,
+        });
       }
     } catch (error) {
-      console.error('Error:', error)
+      console.error('Network Error:', error);
+      // Show a user-friendly error message to the user
+      Swal.fire({
+        icon: 'error',
+        title: 'Network Error',
+        text: 'There was an issue connecting to the server. Please try again later.',
+      });
     }
-  }
+  }    
 
   return (
     <>
