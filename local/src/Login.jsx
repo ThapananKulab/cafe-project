@@ -3,25 +3,14 @@ import Typography from '@mui/material/Typography'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom';
-// or
 import Button from '@mui/material/Button';
-
-
-const defaultTheme = createTheme()
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    ></Typography>
-  )
-}
+import styled from 'styled-components';
 
 
 export default function SignIn() {
+  const StyledDiv = styled.div`
+font-family: "Prompt", sans-serif;
+`;
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -70,10 +59,10 @@ export default function SignIn() {
       });
     }
   }    
-
+  
   return (
     <>
-    
+    <StyledDiv>
       {/*
       This example requires updating your template:
 
@@ -81,7 +70,8 @@ export default function SignIn() {
       <html class="h-full bg-white">
       <body class="h-full">
       ```
-    */}
+    */
+    }
     
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -148,6 +138,7 @@ export default function SignIn() {
           
         </div>
       </div>
+      </StyledDiv>
     </>
   )
 }

@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2';
+import styled from 'styled-components';
+
+const StyledDiv = styled.div`
+font-family: "Prompt", sans-serif;
+`;
 
 function Example() {
   const [products, setProducts] = useState([]);
@@ -34,7 +39,7 @@ function Example() {
   }
 
   return (
-    <div>
+    <StyledDiv>
       <h1>รายชื่อเมนู</h1>
 
       {/* Display the products */}
@@ -44,7 +49,7 @@ function Example() {
             {`ID: ${product._id} - Name: ${product.productname}`}</li>
         ))}
       </ul>
-    </div>
+    </StyledDiv>
   );
 }
 
