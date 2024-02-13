@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const Raw = require('../models/Raw.js');
+const Raw = require('../models/raw.js');
 
 router.get('/:id', (req, res, next) => { //find products
     Raw.findById(req.params.id)
