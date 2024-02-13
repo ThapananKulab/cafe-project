@@ -8,7 +8,7 @@ import Dashboard from './Dashboard'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<Login />} />
+      <Route path="/" element={<Dashboard />} />
       <Route path="/Dashboard" element={<Dashboard />} />
     </Routes>
   </BrowserRouter>
