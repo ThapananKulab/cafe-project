@@ -27,10 +27,7 @@ const MemoryStore = require('memorystore')(expressSession)
 //   secret: 'Fullstack',
 // }));
 
-// app.use(cors())
-app.use(cors({
-  origin: 'https://cafe-project-server11.onrender.com',
-}));
+app.use(cors())
 
 
 app.get('/', (req, res) => {
