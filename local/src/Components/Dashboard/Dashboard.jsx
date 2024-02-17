@@ -13,7 +13,7 @@ const NavigationMenu = () => {
 
   const navigation = [
     { name: 'Product', href: '/Product', action: () => navigate('/Product') },
-    { name: 'Features', href: '#', action: () => {} },
+    { name: 'User', href: '/User', action: () => navigate('/User') },
     { name: 'Marketplace', href: '#', action: () => {} },
     { name: 'Company', href: '#', action: () => {} },
     { name: 'Logout', href: '/', action: handleLogout },
