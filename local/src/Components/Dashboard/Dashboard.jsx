@@ -16,7 +16,7 @@ const NavigationMenu = () => {
     { name: 'Features', href: '#', action: () => {} },
     { name: 'Marketplace', href: '#', action: () => {} },
     { name: 'Company', href: '#', action: () => {} },
-    { name: 'Logout', href: '', action: handleLogout },
+    { name: 'Logout', href: '/', action: handleLogout },
   ]
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
