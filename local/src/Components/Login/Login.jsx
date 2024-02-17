@@ -113,7 +113,7 @@ export default function SignIn() {
                     htmlFor="password"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    รหัสผ่า
+                    รหัสผ่าน
                   </label>
                   <div className="text-sm"></div>
                 </div>
