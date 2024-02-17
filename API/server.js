@@ -14,9 +14,10 @@ const secret = 'Fullstack'
 
 const expressSession = require('express-session')
 const MemoryStore = require('memorystore')(expressSession)
-
+const cookieParser = require('cookie-parser')
 // app.use(express.static('dist'))
 
+app.use(cookieParser())
 // app.use(expressSession({
 //   cookie: { maxAge: 86400000 },
 //   store: new MemoryStore({
@@ -35,8 +36,11 @@ app.get('/', (req, res) => {
 
 // app.use(express.static(dist));
 
-app.use(express.json())
+// app.use(express.json())
+// app.use(express.urlencoded({ extended: true }))
 app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 //database
 mongoose.Promise = global.Promise
