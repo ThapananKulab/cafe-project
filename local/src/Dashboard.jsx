@@ -1,19 +1,24 @@
 import { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 const NavigationMenu = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    navigate('/')
+  }
 
   const navigation = [
-    { name: 'Product', href: '/Product'},
-    { name: 'Features', href: '#' },
-    { name: 'Marketplace', href: '#' },
-    { name: 'Company', href: '#' },
-  ];
-
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    { name: 'Product', href: '/Product', action: () => navigate('/Product') },
+    { name: 'Features', href: '#', action: () => {} },
+    { name: 'Marketplace', href: '#', action: () => {} },
+    { name: 'Company', href: '#', action: () => {} },
+    { name: 'Logout', href: '', action: handleLogout },
+  ]
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
     <div className="bg-white">
@@ -179,8 +184,7 @@ const NavigationMenu = () => {
     </div>
   )
 }
-export default NavigationMenu;
-
+export default NavigationMenu
 
 // import React from 'react'
 

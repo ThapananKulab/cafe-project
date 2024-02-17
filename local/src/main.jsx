@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Login from './Login'
+import Login from './Components/Login/Login'
 import Dashboard from './Dashboard'
 import Product from './Product'
 
