@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-function Dashboard() {
+function Home() {
   const [auth, setAuth] = useState(false);
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:3333/api/authen')
+    axios.get('/api/authen') // Assuming this is the correct endpoint to check authentication
       .then(res => {
         if (res.data.status === 'ok') {
+          // Authentication successful
           setAuth(true);
+          // Navigate to the login page (make sure you have 'Navigate' imported from 'react-router-dom')
           Navigate('/login');
         } else {
           // Authentication failed
@@ -28,4 +30,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Home;
