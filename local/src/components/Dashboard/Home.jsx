@@ -1,26 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const [auth, setAuth] = useState(false);
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('/api/authen') // Assuming this is the correct endpoint to check authentication
+    axios.get('http://localhost:3333/api/authen')
       .then(res => {
         if (res.data.status === 'ok') {
           // Authentication successful
           setAuth(true);
-          // Navigate to the login page (make sure you have 'Navigate' imported from 'react-router-dom')
-          Navigate('/login');
         } else {
           // Authentication failed
           setAuth(false);
           setMessage(res.data.message);
         }
       })
-      .catch(err => console.error(err));
-  }, []); // Pass an empty dependency array to run this effect only once when the component mounts
+      .catch(err => {
+        // Handle error
+        console.error(err);
+      });
+  }, []); // Add an empty dependency array to avoid infinite loop
 
   return (
     <div>
