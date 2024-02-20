@@ -64,7 +64,7 @@ app.post('/api/login', jsonParser, async (req, res) => {
       const match = await bcryptjs.compare(password, user.password)
       if (match) {
         var token = jwt.sign({ username: user.username }, secret, {
-          expiresIn: '7d',
+          expiresIn: '7h',
         })
         res.json({ message: 'Success', token: token })
       } else {
@@ -84,7 +84,6 @@ app.post('/api/authen', jsonParser, (req, res) => {
     const token = req.headers.authorization.split(' ')[1]
     var decoded = jwt.verify(token, secret)
     res.json({ status: 'ok', decoded })
-    res.json({ decoded })
   } catch (err) {
     res.json({ status: 'error', message: err.message })
   }
