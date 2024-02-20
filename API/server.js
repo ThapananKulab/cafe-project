@@ -18,21 +18,22 @@ const cookieParser = require('cookie-parser')
 // app.use(express.static('dist'))
 
 app.use(cookieParser())
-// app.use(expressSession({
-//   cookie: { maxAge: 86400000 },
-//   store: new MemoryStore({
-//     checkPeriod: 86400000, // prune expired entries every 24h
-//   }),
-//   resave: false,
-//   saveUninitialized: true, // Add this line
-//   secret: 'Fullstack',
-// }));
+app.use(expressSession({
+  cookie: { maxAge: 86400000 },
+  store: new MemoryStore({
+    checkPeriod: 86400000, // prune expired entries every 24h
+  }),
+  resave: false,
+  saveUninitialized: true, // Add this line
+  secret: 'Fullstack',
+}));
 
-app.use(cors())
-
+app.use(cors());
 app.get('/', (req, res) => {
   res.send('Server is running')
 })
+
+
 
 // app.use(express.static(dist));
 
@@ -57,34 +58,32 @@ app.listen(process.env.PORT || 3333, () => {
 
 //api
 app.post('/api/login', jsonParser, async (req, res) => {
-  const { username, password } = req.body
+  const { username, password } = req.body;
   try {
-    const user = await User.findOne({ username: username })
+    const user = await User.findOne({ username: username });
     if (user) {
-      const match = await bcryptjs.compare(password, user.password)
+      const match = await bcryptjs.compare(password, user.password);
       if (match) {
         var token = jwt.sign({ username: user.username }, secret, {
-          expiresIn: '1h',
-        })
-        res.json({ message: 'Success', token: token })
+          expiresIn: '7d',
+        });
+        res.cookie('token', token);
+        res.json({ message: 'Success', token: token });
       } else {
-        res.json({ message: 'The password is incorrect' })
+        res.json({ message: 'The password is incorrect' });
       }
     } else {
-      res.json({ message: 'No record found for this username' })
+      res.json({ message: 'No record found for this username' });
     }
   } catch (error) {
-    console.error(error)
-    res.status(500).json({ message: 'Internal server error' })
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
   }
-})
+});
 
 app.post('/api/authen', jsonParser, (req, res) => {
   try {
-    const token = req.headers.authorization.split(' ')[1]
-    var decoded = jwt.verify(token, secret)
-    res.json({ status: 'ok', decoded })
-    res.json({ decoded })
+   
   } catch (err) {
     res.json({ status: 'error', message: err.message })
   }

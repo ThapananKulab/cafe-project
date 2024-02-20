@@ -29,6 +29,7 @@
     "flatpickr": "^4.6.13",
     "flowbite": "^2.2.1",
     "flowbite-react": "^0.7.2",
+    "js-cookie": "^3.0.5",
     "jsvectormap": "^1.5.3",
     "moment-timezone": "^0.5.45",
     "multer": "^1.4.5-lts.1",
