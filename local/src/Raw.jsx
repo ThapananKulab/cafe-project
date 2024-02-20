@@ -10,12 +10,12 @@ const StyledDiv = styled.div`
 `
 
 function Example() {
-  const [products, setProducts] = useState([])
+  const [raws, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    fetch('https://cafe-project-server11.onrender.com/api/products')
+    fetch('https://cafe-project-server11.onrender.com/api/raws')
       .then((response) => response.json())
       .then((data) => {
         setProducts(data)
@@ -44,9 +44,9 @@ function Example() {
 
       {/* Display the products */}
       <ul>
-        {products.map((product) => (
-          <li key={product._id}>
-            {`ID: ${product._id} - Name: ${product.productname}`}
+        {raws.map((raw) => (
+          <li key={raw._id}>
+            {`ID: ${raw._id} ชื่อวัตถุดิบ: ${raw.rawname}`}
           </li>
         ))}
       </ul>

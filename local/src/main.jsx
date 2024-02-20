@@ -6,6 +6,8 @@ import Login from './components/Login/Login'
 import Dashboard from './components/Dashboard/Dashboard'
 import Product from './Product'
 import Err from './404'
+import Raw from './Raw'
+import User from './User'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -14,6 +16,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Route path="/Dashboard" element={<Dashboard />} />
       <Route path="/Product" element={<Product />} />
       <Route path="/*" element={<Err />} />
+      <Route path="/User" element={<User />} />
+      <Route path="/Raw" element={<Raw />} />
     </Routes>
   </BrowserRouter>
 )

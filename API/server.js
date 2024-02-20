@@ -18,15 +18,16 @@ const cookieParser = require('cookie-parser')
 // app.use(express.static('dist'))
 
 app.use(cookieParser())
-// app.use(expressSession({
-//   cookie: { maxAge: 86400000 },
-//   store: new MemoryStore({
-//     checkPeriod: 86400000, // prune expired entries every 24h
-//   }),
-//   resave: false,
-//   saveUninitialized: true, // Add this line
-//   secret: 'Fullstack',
-// }));
+
+app.use(expressSession({
+  cookie: { maxAge: 86400000 },
+  store: new MemoryStore({
+    checkPeriod: 86400000, // prune expired entries every 24h
+  }),
+  resave: false,
+  saveUninitialized: true, // Add this line
+  secret: 'Fullstack',
+}));
 
 app.use(cors())
 
