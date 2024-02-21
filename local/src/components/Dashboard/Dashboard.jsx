@@ -3,7 +3,7 @@ import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from 'react-router-dom'
 
-const NavigationMenu = () => {
+const Dashboard= () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -32,16 +32,14 @@ const NavigationMenu = () => {
     };
     fetchData();
   }, []);
-  
-  
   const navigate = useNavigate()
   
-  const handleLogout = () => {
-    const token = localStorage.getItem('token');
-    console.log('Current token:', token);
-    localStorage.removeItem('token');
-    navigate('/');
-  };
+  // const handleLogout = () => {
+  //   const token = localStorage.getItem('token');
+  //   console.log('Current token:', token);
+  //   localStorage.removeItem('token');
+  //   navigate('/');
+  // };
 
   return (
  <div>
@@ -49,7 +47,7 @@ const NavigationMenu = () => {
  </div>
   )
 }
-export default NavigationMenu
+export default Dashboard
 
 // import React from 'react'
 
