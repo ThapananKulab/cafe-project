@@ -12,21 +12,19 @@ const bcryptjs = require('bcryptjs')
 var jwt = require('jsonwebtoken')
 const secret = 'Fullstack'
 
-const expressSession = require('express-session')
+const session = require('express-session');
 const MemoryStore = require('memorystore')(expressSession)
 const cookieParser = require('cookie-parser')
 // app.use(express.static('dist'))
 
 app.use(cookieParser())
 
-app.use(expressSession({
-  cookie: { maxAge: 86400000 },
-  store: new MemoryStore({
-    checkPeriod: 86400000, // prune expired entries every 24h
-  }),
-  resave: false,
-  saveUninitialized: true, // Add this line
-  secret: 'Fullstack',
+
+app.use(session({
+    secret: 'Fullstack',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
 }));
 
 app.use(cors())
@@ -88,6 +86,9 @@ app.post('/api/authen', jsonParser, (req, res) => {
   } catch (err) {
     res.json({ status: 'error', message: err.message })
   }
+})
+
+app.post('/Dashboard', jsonParser, (req, res) => {
 })
 
 app.post('/api/logout', (req, res) => {
