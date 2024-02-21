@@ -2,6 +2,7 @@ import React,{ useState,useEffect } from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 const NavigationMenu = () => {
   useEffect(() => {
@@ -24,7 +25,12 @@ const NavigationMenu = () => {
 
         } else {
           localStorage.removeItem('token');
-          navigate('/*');
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: result.message,
+          });
+          navigate('/');
         }
       } catch (error) {
         console.error('Error:', error.status);
