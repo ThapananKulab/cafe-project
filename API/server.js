@@ -88,7 +88,7 @@ app.post('/api/authen', jsonParser, (req, res) => {
   }
 })
 
-app.post('/Dashboard', jsonParser, (req, res) => {
+app.get('/Dashboard', jsonParser, (req, res) => {
   res.send('Dashboard is running')
 })
 
