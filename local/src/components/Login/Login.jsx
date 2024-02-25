@@ -1,4 +1,4 @@
-import React,{ useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 import Button from '@mui/material/Button'
@@ -9,55 +9,58 @@ export default function SignIn() {
     font-family: 'Prompt', sans-serif;
   `
   const navigate = useNavigate()
+
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
     const jsonData = {
       username: formData.get('username'),
       password: formData.get('password'),
-    };
-  
+    }
+
     console.log({
       username: jsonData.username,
       password: jsonData.password,
-    });
-  
+    })
+
     try {
-      const response = await fetch('https://cafe-project-server11.onrender.com/api/login', {
-      // const response = await fetch('http://localhost:3333/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(jsonData),
-      });
-  
+      const response = await fetch(
+        'https://cafe-project-server11.onrender.com/api/login',
+        {
+          // const response = await fetch('http://localhost:3333/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(jsonData),
+        }
+      )
+
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error('Network response was not ok')
       }
-  
-      const result = await response.json();
-  
+
+      const result = await response.json()
+
       if (result.message === 'Success') {
-        localStorage.setItem('token', result.token);
-        navigate('/Dashboard');
+        localStorage.setItem('token', result.token)
+        navigate('/Dashboard')
       } else {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
           text: result.message,
-        });
+        })
       }
     } catch (error) {
-      console.error('Network Error:', error);
+      console.error('Network Error:', error)
       Swal.fire({
         icon: 'error',
         title: 'Network Error',
         text: 'There was an issue connecting to the server. Please try again later.',
-      });
+      })
     }
-  };
-  
+  }
 
   return (
     <>

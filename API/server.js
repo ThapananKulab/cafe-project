@@ -19,15 +19,17 @@ const cookieParser = require('cookie-parser')
 
 app.use(cookieParser())
 
-app.use(expressSession({
-  cookie: { maxAge: 86400000 },
-  store: new MemoryStore({
-    checkPeriod: 86400000, // prune expired entries every 24h
-  }),
-  resave: false,
-  saveUninitialized: true, // Add this line
-  secret: 'Fullstack',
-}));
+app.use(
+  expressSession({
+    cookie: { maxAge: 86400000 },
+    store: new MemoryStore({
+      checkPeriod: 86400000, // prune expired entries every 24h
+    }),
+    resave: false,
+    saveUninitialized: true, // Add this line
+    secret: 'Fullstack',
+  })
+)
 
 app.use(cors())
 
@@ -91,12 +93,17 @@ app.post('/api/authen', jsonParser, (req, res) => {
 })
 
 app.post('/api/logout', (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).send('Could not log out, please try again.')
-    }
-    res.send('Logged out successfully.')
-  })
+  try {
+    req.session.destroy((err) => {
+      if (err) {
+        return res.status(500).send('Could not log out, please try again.')
+      }
+      res.send('Logged out successfully.')
+    })
+  } catch (error) {
+    console.error('Error logging out:', error)
+    res.status(500).json({ message: 'Internal server error' })
+  }
 })
 
 //api product
