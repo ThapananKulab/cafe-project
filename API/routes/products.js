@@ -223,6 +223,37 @@ router.post('/insert', upload.single('image'), async (req, res, next) => {
 //   }
 // });
 
+// router.post('/insertU', upload.single('image'), async (req, res, next) => {
+//   try {
+//     console.log('Received form data:', req.body)
+//     console.log('Received file:', req.file)
+
+//     const product = await Product.create({
+//       productname: req.body.productname,
+//       type: req.body.type,
+//       price: req.body.price,
+//       image: req.file.filename,
+//     })
+
+//     console.log(req.query)
+
+//     // Send a success response
+//     res.status(200).json({
+//       success: true,
+//       message: 'Product has been saved successfully',
+//       productname: req.body.productname,
+//       type: req.body.type,
+//       price: req.body.price,
+//     })
+//   } catch (err) {
+//     console.error('Error:', err)
+//     // Send an error response
+//     res
+//       .status(500)
+//       .json({ success: false, message: 'Error saving the product' })
+//   }
+// })
+
 router.post('/insertU', upload.single('image'), async (req, res, next) => {
   try {
     console.log('Received form data:', req.body)
@@ -236,8 +267,6 @@ router.post('/insertU', upload.single('image'), async (req, res, next) => {
     })
 
     console.log(req.query)
-
-    // Send a success response
     res.status(200).json({
       success: true,
       message: 'Product has been saved successfully',
@@ -247,7 +276,6 @@ router.post('/insertU', upload.single('image'), async (req, res, next) => {
     })
   } catch (err) {
     console.error('Error:', err)
-    // Send an error response
     res
       .status(500)
       .json({ success: false, message: 'Error saving the product' })
