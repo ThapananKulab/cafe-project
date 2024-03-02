@@ -184,24 +184,24 @@ const storage = multer.diskStorage({
   },
 })
 const upload = multer({ storage: storage })
-router.post('/insert', upload.single('image'), async (req, res, next) => {
-  try {
-    console.log('Received form data:', req.body)
-    console.log('Received file:', req.file)
+// router.post('/insert', upload.single('image'), async (req, res, next) => {
+//   try {
+//     console.log('Received form data:', req.body)
+//     console.log('Received file:', req.file)
 
-    const product = await Product.create({
-      productname: req.body.productname,
-      type: req.body.type,
-      price: req.body.price,
-      image: req.file.filename,
-    })
+//     const product = await Product.create({
+//       productname: req.body.productname,
+//       type: req.body.type,
+//       price: req.body.price,
+//       image: req.file.filename,
+//     })
 
-    res.redirect('/product')
-  } catch (err) {
-    console.error('Error:', err)
-    next(err)
-  }
-})
+//     res.redirect('/product')
+//   } catch (err) {
+//     console.error('Error:', err)
+//     next(err)
+//   }
+// })
 
 // // Multer Images User
 // router.post('/insertU', upload.single('image'), async (req, res, next) => { // insert
@@ -223,37 +223,6 @@ router.post('/insert', upload.single('image'), async (req, res, next) => {
 //   }
 // });
 
-// router.post('/insertU', upload.single('image'), async (req, res, next) => {
-//   try {
-//     console.log('Received form data:', req.body)
-//     console.log('Received file:', req.file)
-
-//     const product = await Product.create({
-//       productname: req.body.productname,
-//       type: req.body.type,
-//       price: req.body.price,
-//       image: req.file.filename,
-//     })
-
-//     console.log(req.query)
-
-//     // Send a success response
-//     res.status(200).json({
-//       success: true,
-//       message: 'Product has been saved successfully',
-//       productname: req.body.productname,
-//       type: req.body.type,
-//       price: req.body.price,
-//     })
-//   } catch (err) {
-//     console.error('Error:', err)
-//     // Send an error response
-//     res
-//       .status(500)
-//       .json({ success: false, message: 'Error saving the product' })
-//   }
-// })
-
 router.post('/insertU', upload.single('image'), async (req, res, next) => {
   try {
     console.log('Received form data:', req.body)
@@ -267,6 +236,8 @@ router.post('/insertU', upload.single('image'), async (req, res, next) => {
     })
 
     console.log(req.query)
+
+    // Send a success response
     res.status(200).json({
       success: true,
       message: 'Product has been saved successfully',
@@ -276,6 +247,7 @@ router.post('/insertU', upload.single('image'), async (req, res, next) => {
     })
   } catch (err) {
     console.error('Error:', err)
+    // Send an error response
     res
       .status(500)
       .json({ success: false, message: 'Error saving the product' })
@@ -304,6 +276,28 @@ router.post('/updateU', upload.single('image'), async (req, res, next) => {
   } catch (err) {
     console.error('Error updating product:', err)
     res.status(500).send('Internal Server Error')
+  }
+})
+
+router.post('/insert', async (req, res) => {
+  const { productname, type, price } = req.body
+
+  try {
+    const newProduct = new Product({
+      productname,
+      type,
+      price,
+    })
+    const savedProduct = await newProduct.save()
+
+    res.json({
+      success: true,
+      message: `เพิ่ม ${productname} สำเร็จ`,
+      data: savedProduct,
+    })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ success: false, message: 'Server error' })
   }
 })
 
