@@ -81,7 +81,9 @@ app.post('/api/login', jsonParser, async (req, res) => {
         res.json({ message: 'The password is incorrect' })
       }
     } else {
-      res.json({ message: 'No record found for this username' })
+      res.json({
+        message: 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง โปรดลองอีกครั้ง',
+      })
     }
   } catch (error) {
     console.error(error)
@@ -112,7 +114,6 @@ app.post('/api/logout', (req, res) => {
     res.status(500).json({ message: 'Internal server error' })
   }
 })
-
 
 //api product
 const products = require('./routes/products')
