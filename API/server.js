@@ -113,6 +113,7 @@ app.post('/api/logout', (req, res) => {
   }
 })
 
+
 //api product
 const products = require('./routes/products')
 app.use('/api/products', products)
