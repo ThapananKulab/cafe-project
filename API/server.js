@@ -113,22 +113,6 @@ app.post('/api/logout', (req, res) => {
   }
 })
 
-app.get('/api/user-info', authenticateToken, async (req, res) => {
-  const username = req.user.username
-
-  try {
-    const user = await User.findOne({ username: username }, '-password')
-    if (user) {
-      res.json({ displayName: user.name })
-    } else {
-      res.status(404).json({ message: 'User not found' })
-    }
-  } catch (error) {
-    console.error(error)
-    res.status(500).json({ message: 'Internal server error' })
-  }
-})
-
 //api product
 const products = require('./routes/products')
 app.use('/api/products', products)
