@@ -282,14 +282,13 @@ router.post('/insertReact', upload.single('image'), async (req, res) => {
   const { productname, type, price } = req.body
 
   try {
-    // Extract just the filename if a file is uploaded
     const imageName = req.file ? req.file.filename : null
 
     const newProduct = new Product({
       productname,
       type,
       price,
-      image: imageName, // Use only the filename here
+      image: imageName,
     })
     const savedProduct = await newProduct.save()
 
