@@ -70,6 +70,12 @@ app.post('/api/login', jsonParser, async (req, res) => {
           user: {
             username: user.username,
             role: user.role,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            email: user.email,
+            phone: user.phone,
+            address: user.address,
+            image: user.image,
           },
         }
         var token = jwt.sign(payload, secret, {
@@ -78,7 +84,9 @@ app.post('/api/login', jsonParser, async (req, res) => {
 
         res.json({ message: 'Success', token: token })
       } else {
-        res.json({ message: 'The password is incorrect' })
+        res.json({
+          message: 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง โปรดลองอีกครั้ง',
+        })
       }
     } else {
       res.json({
