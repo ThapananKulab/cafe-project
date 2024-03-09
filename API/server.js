@@ -32,7 +32,7 @@ app.use(
 )
 
 app.use(cors())
-app.use(express.static('public'))
+app.use('/public', express.static('public'))
 
 app.get('/', (req, res) => {
   res.send('Server is running')
@@ -141,6 +141,25 @@ app.post('/upload', upload.single('image'), (req, res) => {
   } else {
     res.status(400).send('File upload failed')
   }
+})
+
+const path = require('path')
+app.get('/images/:filename', (req, res) => {
+  const filename = req.params.filename
+  const imagePath = path.join(
+    __dirname,
+    'public',
+    'images',
+    'products',
+    filename
+  )
+  res.sendFile(imagePath, (err) => {
+    if (err) {
+      // If there's an error serving the file, log it and send a 404 response
+      console.log(err)
+      res.status(404).send('Image not found')
+    }
+  })
 })
 
 //api product
