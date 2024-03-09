@@ -5,7 +5,7 @@ const ProductSchema = new mongoose.Schema({
   productname: String,
   type: String,
   price: Number,
-  // image: String,
+  image: String,
   created: {
     type: Date,
     default: () => moment().tz('Asia/Bangkok').toDate(),

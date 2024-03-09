@@ -32,6 +32,7 @@ app.use(
 )
 
 app.use(cors())
+app.use(express.static('public'))
 
 app.get('/', (req, res) => {
   res.send('Server is running')
@@ -39,8 +40,6 @@ app.get('/', (req, res) => {
 
 // app.use(express.static(dist));
 
-// app.use(express.json())
-// app.use(express.urlencoded({ extended: true }))
 app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -120,6 +119,27 @@ app.post('/api/logout', (req, res) => {
   } catch (error) {
     console.error('Error logging out:', error)
     res.status(500).json({ message: 'Internal server error' })
+  }
+})
+
+const multer = require('multer')
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/images') // Save files in "uploads" directory. Make sure it exists.
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname)
+  },
+})
+
+const upload = multer({ storage })
+
+app.post('/upload', upload.single('image'), (req, res) => {
+  if (req.file) {
+    // Successfully uploaded
+    res.json({ message: 'File uploaded successfully', file: req.file })
+  } else {
+    res.status(400).send('File upload failed')
   }
 })
 

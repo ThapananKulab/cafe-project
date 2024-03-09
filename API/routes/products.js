@@ -247,7 +247,6 @@ router.post('/insertU', upload.single('image'), async (req, res, next) => {
     })
   } catch (err) {
     console.error('Error:', err)
-    // Send an error response
     res
       .status(500)
       .json({ success: false, message: 'Error saving the product' })
@@ -279,14 +278,18 @@ router.post('/updateU', upload.single('image'), async (req, res, next) => {
   }
 })
 
-router.post('/insert', async (req, res) => {
+router.post('/insertReact', upload.single('image'), async (req, res) => {
   const { productname, type, price } = req.body
 
   try {
+    // Extract just the filename if a file is uploaded
+    const imageName = req.file ? req.file.filename : null
+
     const newProduct = new Product({
       productname,
       type,
       price,
+      image: imageName, // Use only the filename here
     })
     const savedProduct = await newProduct.save()
 
