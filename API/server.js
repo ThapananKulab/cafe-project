@@ -161,6 +161,25 @@ app.get('/images-product/:filename', (req, res) => {
   })
 })
 
+app.get('/images-user/:filename', (req, res) => {
+  const filename = req.params.filename;
+  const imagePath = path.join(
+    __dirname, 'public', 
+    'images', 
+    'users', 
+    filename);
+  sendImage(imagePath, res);
+});
+
+function sendImage(imagePath, res) {
+  res.sendFile(imagePath, (err) => {
+    if (err) {
+      console.log(err);
+      res.status(404).send('Image not found');
+    }
+  });
+}
+
 //api product
 const products = require('./routes/products')
 app.use('/api/products', products)
