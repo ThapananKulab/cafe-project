@@ -144,7 +144,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
 })
 
 const path = require('path')
-app.get('/images/:filename', (req, res) => {
+app.get('/images-product/:filename', (req, res) => {
   const filename = req.params.filename
   const imagePath = path.join(
     __dirname,
@@ -155,7 +155,6 @@ app.get('/images/:filename', (req, res) => {
   )
   res.sendFile(imagePath, (err) => {
     if (err) {
-      // If there's an error serving the file, log it and send a 404 response
       console.log(err)
       res.status(404).send('Image not found')
     }
