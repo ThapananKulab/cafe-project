@@ -199,11 +199,20 @@ router.post('/insertReact', upload.single('image'), async (req, res) => {
   const { username, password, firstname, lastname, email, phone, address, role } = req.body;
 
   try {
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: 'ชื่อผู้ใช้นี้ถูกใช้แล้ว โปรดเลือกชื่อผู้ใช้อื่น',
+      });
+    }
+
+    // If the username is unique, proceed with user registration
     const imageName = req.file ? req.file.filename : null;
 
     const newUser = new User({
       username,
-      password,  // Note: Storing passwords in plain text is not recommended for production applications
+      password,
       firstname,
       lastname,
       email,
@@ -225,6 +234,7 @@ router.post('/insertReact', upload.single('image'), async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
+
 
 
 module.exports = router
