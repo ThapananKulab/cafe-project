@@ -63,7 +63,6 @@ app.post('/api/login', jsonParser, async (req, res) => {
       if (match) {
         const payload = {
           user: {
-            id: user.id,
             username: user.username,
             role: user.role,
             firstname: user.firstname,
