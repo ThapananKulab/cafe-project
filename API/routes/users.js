@@ -204,16 +204,11 @@ router.post('/insertReact', upload.single('image'), async (req, res) => {
       return res.status(400).json({
         success: false,
         message: 'ชื่อผู้ใช้นี้ถูกใช้แล้ว โปรดเลือกชื่อผู้ใช้อื่น',
-        data: null,
+        data: null, 
       });
     }
+    const imageName = req.file ? req.file.filename : null
 
-    let imageName = null;
-
-    if (req.file) {
-      imageName = req.file.filename;
-      res.status(500).json({ success: false, message: 'Server error', data: null });
-    }
     const newUser = new User({
       username,
       password,
@@ -238,7 +233,6 @@ router.post('/insertReact', upload.single('image'), async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error', data: null });
   }
 });
-
 
 
 
