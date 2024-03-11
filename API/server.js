@@ -3,19 +3,15 @@ var cors = require('cors')
 var bodyParser = require('body-parser')
 var app = express()
 var jsonParser = bodyParser.json()
-// var urlencodedParser = bodyParser.urlencoded({ extended: false });
 const mongoose = require('mongoose')
 const User = require('./models/User')
 const bcryptjs = require('bcryptjs')
-// var cookieParser = require('cookie-parser')
-
 var jwt = require('jsonwebtoken')
 const secret = 'Fullstack'
-
 const expressSession = require('express-session')
 const MemoryStore = require('memorystore')(expressSession)
 const cookieParser = require('cookie-parser')
-// app.use(express.static('dist'))
+
 
 app.use(cookieParser())
 
@@ -139,7 +135,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
     res.json({ message: 'File uploaded successfully', file: req.file })
   } else {
     res.status(400).send('File upload failed')
-  }
+  } 
 })
 
 const path = require('path')
