@@ -279,7 +279,7 @@ router.post('/updateProfile', upload.single('image'), async (req, res) => {
 
 router.post('/updateUU', upload.single('image'), async (req, res, next) => {
   try {
-    const id = req.body.id;
+    const updateP_id = req.body.updateP_id;
     const data = {
       firstname: req.body.firstname,
       lastname: req.body.lastname,
@@ -292,10 +292,11 @@ router.post('/updateUU', upload.single('image'), async (req, res, next) => {
       data.image = req.file.filename;
     }
 
-    console.log(id);
+    console.log(updateP_id);
     console.log(data);
 
-    await User.findByIdAndUpdate(id, data, { useFindAndModify: false });
+    await User.findByIdAndUpdate(updateP_id, data, { useFindAndModify: false });
+    res.redirect('/editprofileU');
   } catch (err) {
     console.error('Error updating user profile:', err);
     res.status(500).send('Internal Server Error');
