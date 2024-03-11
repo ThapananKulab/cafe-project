@@ -55,7 +55,7 @@ UserSchema.pre('save', function (next) {
     })
     .catch(error => {
       console.error(error);
-      next(error); // Call next with the error to propagate it
+      next(error);
     });
 });
 
