@@ -234,6 +234,77 @@ router.post('/insertReact', upload.single('image'), async (req, res) => {
   }
 });
 
+router.post('/updateProfile', upload.single('image'), async (req, res) => {
+  const { username, firstname, lastname, phone, address } = req.body;
+
+  try {
+    const existingUser = await User.findOne({ username });
+
+    if (!existingUser) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+        data: null,
+      });
+    }
+
+    // Update user information
+    existingUser.firstname = firstname;
+    existingUser.lastname = lastname;
+    existingUser.phone = phone;
+    existingUser.address = address;
+
+    // Handle image update if provided
+    if (req.file) {
+      existingUser.image = req.file.filename;
+    }
+
+    // Save the updated user
+    const updatedUser = await existingUser.save();
+
+    res.json({
+      success: true,
+      message: 'User profile updated successfully',
+      data: updatedUser,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+      data: null,
+    });
+  }
+});
+
+router.post('/updateUU', upload.single('image'), async (req, res, next) => {
+  try {
+    const updateP_id = req.body.updateP_id;
+    const data = {
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      email: req.body.email,
+      phone: req.body.phone,
+      address: req.body.address,
+    };
+
+    if (req.file) {
+      data.image = req.file.filename;
+    }
+
+    console.log(updateP_id);
+    console.log(data);
+
+    await User.findByIdAndUpdate(updateP_id, data, { useFindAndModify: false });
+    res.redirect('/editprofileU');
+  } catch (err) {
+    console.error('Error updating user profile:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+
 
 
 module.exports = router

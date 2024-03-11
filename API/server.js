@@ -12,7 +12,7 @@ const expressSession = require('express-session')
 const MemoryStore = require('memorystore')(expressSession)
 const cookieParser = require('cookie-parser')
 
-
+app.use(cors());
 app.use(cookieParser())
 
 app.use(
@@ -63,6 +63,7 @@ app.post('/api/login', jsonParser, async (req, res) => {
       if (match) {
         const payload = {
           user: {
+            id: user._id,
             username: user.username,
             role: user.role,
             firstname: user.firstname,
@@ -174,6 +175,50 @@ function sendImage(imagePath, res) {
     }
   });
 }
+
+
+app.post('/updateProfile', upload.single('image'), async (req, res) => {
+  const { username, firstname, lastname, phone, address } = req.body;
+
+  try {
+    const existingUser = await User.findOne({ username });
+
+    if (!existingUser) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+        data: null,
+      });
+    }
+
+    // Update user information
+    existingUser.firstname = firstname;
+    existingUser.lastname = lastname;
+    existingUser.phone = phone;
+    existingUser.address = address;
+
+    // Handle image update if provided
+    if (req.file) {
+      existingUser.image = req.file.filename;
+    }
+
+    // Save the updated user
+    const updatedUser = await existingUser.save();
+
+    res.json({
+      success: true,
+      message: 'User profile updated successfully',
+      data: updatedUser,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+      data: null,
+    });
+  }
+});
 
 //api product
 const products = require('./routes/products')
