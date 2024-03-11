@@ -125,7 +125,7 @@ app.post('/api/logout', (req, res) => {
 const multer = require('multer')
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'public/images') // Save files in "uploads" directory. Make sure it exists.
+    cb(null, 'public/images')
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + '-' + file.originalname)
@@ -136,7 +136,6 @@ const upload = multer({ storage })
 
 app.post('/upload', upload.single('image'), (req, res) => {
   if (req.file) {
-    // Successfully uploaded
     res.json({ message: 'File uploaded successfully', file: req.file })
   } else {
     res.status(400).send('File upload failed')

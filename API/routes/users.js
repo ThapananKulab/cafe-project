@@ -204,11 +204,10 @@ router.post('/insertReact', upload.single('image'), async (req, res) => {
       return res.status(400).json({
         success: false,
         message: 'ชื่อผู้ใช้นี้ถูกใช้แล้ว โปรดเลือกชื่อผู้ใช้อื่น',
+        data: null, // Add this line to include null data for consistency
       });
     }
-
-    // If the username is unique, proceed with user registration
-    const imageName = req.file ? req.file.filename : null;
+    const imageName = req.file ? req.file.filename : null
 
     const newUser = new User({
       username,
@@ -231,7 +230,7 @@ router.post('/insertReact', upload.single('image'), async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: 'Server error' });
+    res.status(500).json({ success: false, message: 'Server error', data: null });
   }
 });
 
