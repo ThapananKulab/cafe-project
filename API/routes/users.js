@@ -195,4 +195,36 @@ router.delete('/:id', (req, res, next) => {
     })
 })
 
+router.post('/insertReact', upload.single('image'), async (req, res) => {
+  const { username, password, firstname, lastname, email, phone, address, role } = req.body;
+
+  try {
+    const imageName = req.file ? req.file.filename : null;
+
+    const newUser = new User({
+      username,
+      password,  // Note: Storing passwords in plain text is not recommended for production applications
+      firstname,
+      lastname,
+      email,
+      phone,
+      address,
+      role,
+      image: imageName,
+    });
+
+    const savedUser = await newUser.save();
+
+    res.json({
+      success: true,
+      message: `User registration successful for ${username}`,
+      data: savedUser,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+
 module.exports = router
