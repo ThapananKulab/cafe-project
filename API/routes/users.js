@@ -44,28 +44,28 @@ router.get('/deleteU/:id', (req, res, next) => {
     })
 })
 
+
 router.post('/editU/:id', async (req, res) => {
   try {
-    const userId = req.params.id
-    const editId = req.body.edit_id
+    const userId = req.params.id;
+    const editId = req.body.edit_id;
 
     const updatedUser = await User.findOneAndUpdate(
       { _id: userId },
       { $set: { id: editId } },
       { new: true }
-    ).exec()
+    ).exec();
 
     if (!updatedUser) {
-      return res.status(404).send('User not found')
+      return res.status(404).send('User not found');
     }
-
-    // Assuming you want to redirect to the user's edit profile page
-    res.redirect(`/editprofileA?id=${updatedUser._id}`)
+    res.redirect(`/update-profile-user?id=${updatedUser._id}`); // Changed to redirect to /update-profile-user
   } catch (err) {
-    console.error(err)
-    res.status(500).send('Internal Server Error')
+    console.error(err);
+    res.status(500).send('Internal Server Error');
   }
-})
+});
+
 
 // router.post('/updateU/:id', async (req, res, next) => {
 //   const userId = req.params.userId;
@@ -278,7 +278,7 @@ router.post('/insertReact', upload.single('image'), async (req, res) => {
 
 router.post('/updateProfile', upload.single('image'), async (req, res, next) => {
   try {
-    const updateP_id = req.body.updateP_id
+    const updateP_id = req.body.updateP_id;
     const data = {
       firstname: req.body.firstname,
       lastname: req.body.lastname,
@@ -286,18 +286,23 @@ router.post('/updateProfile', upload.single('image'), async (req, res, next) => 
       phone: req.body.phone,
       address: req.body.address,
       role: req.body.role,
-    }
+    };
+
     if (req.file) {
-      data.image = req.file.filename
+      data.image = req.file.filename;
     }
-    console.log(updateP_id)
-    console.log(data)
-    await User.findByIdAndUpdate(updateP_id, data, { useFindAndModify: false })
+
+    console.log(updateP_id);
+    console.log(data);
+
+    const updatedUser = await User.findByIdAndUpdate(updateP_id, data, { useFindAndModify: false });
+
+    res.json(updatedUser);
   } catch (err) {
-    console.error('Error updating product:', err)
-    res.status(500).send('Internal Server Error')
+    console.error('Error updating product:', err);
+    res.status(500).send('Internal Server Error');
   }
-})
+});
 
 
 
