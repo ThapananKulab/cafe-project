@@ -233,91 +233,74 @@ router.post('/insertReact', upload.single('image'), async (req, res) => {
   }
 });
 
-router.post('/updateProfile', upload.single('image'), async (req, res) => {
-  const { username, firstname, lastname, phone, address } = req.body;
+// router.post('/updateProfile', upload.single('image'), async (req, res) => {
+//   const { username, firstname, lastname, phone, address } = req.body;
 
+//   try {
+//     const existingUser = await User.findOne({ username });
+
+//     if (!existingUser) {
+//       return res.status(404).json({
+//         success: false,
+//         message: 'User not found',
+//         data: null,
+//       });
+//     }
+
+//     // Update user information
+//     existingUser.firstname = firstname;
+//     existingUser.lastname = lastname;
+//     existingUser.phone = phone;
+//     existingUser.address = address;
+
+//     // Handle image update if provided
+//     if (req.file) {
+//       existingUser.image = req.file.filename;
+//     }
+
+//     // Save the updated user
+//     const updatedUser = await existingUser.save();
+
+//     res.json({
+//       success: true,
+//       message: 'User profile updated successfully',
+//       data: updatedUser,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({
+//       success: false,
+//       message: 'Server error',
+//       data: null,
+//     });
+//   }
+// });
+
+router.post('/updateProfile', upload.single('image'), async (req, res, next) => {
   try {
-    const existingUser = await User.findOne({ username });
-
-    if (!existingUser) {
-      return res.status(404).json({
-        success: false,
-        message: 'User not found',
-        data: null,
-      });
+    const updateP_id = req.body.updateP_id
+    const data = {
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      email: req.body.email,
+      phone: req.body.phone,
+      address: req.body.address,
+      role: req.body.role,
     }
-
-    // Update user information
-    existingUser.firstname = firstname;
-    existingUser.lastname = lastname;
-    existingUser.phone = phone;
-    existingUser.address = address;
-
-    // Handle image update if provided
     if (req.file) {
-      existingUser.image = req.file.filename;
+      data.image = req.file.filename
     }
-
-    // Save the updated user
-    const updatedUser = await existingUser.save();
-
-    res.json({
-      success: true,
-      message: 'User profile updated successfully',
-      data: updatedUser,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error',
-      data: null,
-    });
+    console.log(updateP_id)
+    console.log(data)
+    await User.findByIdAndUpdate(updateP_id, data, { useFindAndModify: false })
+  } catch (err) {
+    console.error('Error updating product:', err)
+    res.status(500).send('Internal Server Error')
   }
-});
+})
 
-router.post('/updateUU', async (req, res) => {
-  const { updateP_id, firstname, lastname, email, phone, address } = req.body;
 
-  try {
-    const user = await User.findById(updateP_id);
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: 'ไม่พบผู้ใช้',
-      });
-    }
 
-    // Update user fields except for the password
-    user.firstname = firstname;
-    user.lastname = lastname;
-    user.email = email;
-    user.phone = phone;
-    user.address = address;
-
-    // Save the updated user details, excluding the password field
-    await user.save();
-
-    res.json({
-      success: true,
-      message: 'ข้อมูลของคุณได้รับการอัปเดตแล้ว',
-      data: {
-        _id: user._id,
-        firstname: user.firstname,
-        lastname: user.lastname,
-        email: user.email,
-        phone: user.phone,
-        address: user.address,
-      },
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      message: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
-    });
-  }
-});
 
 
 
