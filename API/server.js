@@ -64,6 +64,7 @@ app.post('/api/login', jsonParser, async (req, res) => {
         const payload = {
           user: {
             id: user.id,
+            id: user.password,
             username: user.username,
             role: user.role,
             firstname: user.firstname,

@@ -277,31 +277,43 @@ router.post('/updateProfile', upload.single('image'), async (req, res) => {
   }
 });
 
-router.post('/updateUU', upload.single('image'), async (req, res, next) => {
-  try {
-    const updateP_id = req.body.updateP_id;
-    const data = {
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
-      email: req.body.email,
-      phone: req.body.phone,
-      address: req.body.address,
-    };
+router.post('/updateUU', async (req, res) => {
+  const { updateP_id, firstname, lastname, email, phone, address } = req.body;
 
-    if (req.file) {
-      data.image = req.file.filename;
+  try {
+    const user = await User.findById(updateP_id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'ไม่พบผู้ใช้',
+      });
     }
 
-    console.log(updateP_id);
-    console.log(data);
+    // Update user fields except for the password
+    user.firstname = firstname;
+    user.lastname = lastname;
+    user.email = email;
+    user.phone = phone;
+    user.address = address;
 
-    await User.findByIdAndUpdate(updateP_id, data, { useFindAndModify: false });
-    res.redirect('/editprofileU');
-  } catch (err) {
-    console.error('Error updating user profile:', err);
-    res.status(500).send('Internal Server Error');
+    // Save the updated user details
+    const updatedUser = await user.save();
+
+    res.json({
+      success: true,
+      message: 'ข้อมูลของคุณได้รับการอัปเดตแล้ว',
+      data: updatedUser,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
+    });
   }
 });
+
+
 
 
 module.exports = router
