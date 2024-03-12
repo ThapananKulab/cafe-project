@@ -63,7 +63,7 @@ app.post('/api/login', jsonParser, async (req, res) => {
       if (match) {
         const payload = {
           user: {
-            // id: user.id,
+            id: user.id,
             username: user.username,
             role: user.role,
             firstname: user.firstname,
@@ -219,6 +219,7 @@ app.post('/updateProfile', upload.single('image'), async (req, res) => {
     });
   }
 });
+
 
 //api product
 const products = require('./routes/products')
