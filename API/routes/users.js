@@ -211,7 +211,6 @@ router.post('/insertReact', upload.single('image'), async (req, res) => {
 
     const newUser = new User({
       username,
-      password,
       firstname,
       lastname,
       email,
@@ -296,13 +295,20 @@ router.post('/updateUU', async (req, res) => {
     user.phone = phone;
     user.address = address;
 
-    // Save the updated user details
-    const updatedUser = await user.save();
+    // Save the updated user details, excluding the password field
+    await user.save();
 
     res.json({
       success: true,
       message: 'ข้อมูลของคุณได้รับการอัปเดตแล้ว',
-      data: updatedUser,
+      data: {
+        _id: user._id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        phone: user.phone,
+        address: user.address,
+      },
     });
   } catch (error) {
     console.error(error);
@@ -312,6 +318,7 @@ router.post('/updateUU', async (req, res) => {
     });
   }
 });
+
 
 
 
