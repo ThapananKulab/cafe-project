@@ -55,16 +55,17 @@ UserSchema.pre('save', function (next) {
     })
     .catch(error => {
       console.error(error);
-      next(error);
+      next(error); 
     });
 });
 
-UserSchema.methods.verifyPassword = async function (password) {
-  try {
-    return await bcrypt.compare(password, this.password);
-  } catch (error) {
-    throw error;
-  }
-};
+
+// UserSchema.methods.verifyPassword = async function (password) {
+//   try {
+//     return await bcrypt.compare(password, this.password);
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 module.exports = mongoose.model('User', UserSchema);
