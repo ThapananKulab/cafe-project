@@ -2,8 +2,6 @@ const express = require('express')
 const router = express.Router()
 // const mongoose = require('mongoose');
 const User = require('../models/User.js')
-const secret = 'Fullstack' // ใช้ secret key เดียวกันกับที่ใช้ในการสร้าง token
-const jwt = require('jsonwebtoken')
 
 router.get('/', (req, res, next) => {
   User.find()
@@ -287,62 +285,12 @@ router.post('/insertReact', upload.single('image'), async (req, res) => {
 //   }
 // });
 
-// router.post(
-//   '/updateProfile',
-//   upload.single('image'),
-//   async (req, res, next) => {
-//     try {
-//       const updateP_id = req.body.updateP_id
-//       const data = {
-//         firstname: req.body.firstname,
-//         lastname: req.body.lastname,
-//         email: req.body.email,
-//         phone: req.body.phone,
-//         address: req.body.address,
-//         role: req.body.role,
-//       }
-
-//       if (req.file) {
-//         data.image = req.file.filename
-//       }
-
-//       console.log(updateP_id)
-//       console.log(data)
-
-//       const updatedUser = await User.findByIdAndUpdate(updateP_id, data, {
-//         useFindAndModify: false,
-//       })
-
-//       res.json(updatedUser)
-//     } catch (err) {
-//       console.error('Error updating product:', err)
-//       res.status(500).send('Internal Server Error')
-//     }
-//   }
-// )
-
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(' ')[1]
-
-  if (token == null) return res.sendStatus(401) // ไม่พบ token
-
-  jwt.verify(token, secret, (err, user) => {
-    if (err) return res.sendStatus(403) // token ไม่ถูกต้องหรือหมดอายุ
-    req.user = user
-    next() // ตรวจสอบผ่าน
-  })
-}
-
-// Route สำหรับการอัปเดตข้อมูลผู้ใช้
-// ถอด authenticateToken ออกจาก route
 router.post(
   '/updateProfile',
   upload.single('image'),
   async (req, res, next) => {
     try {
-      const userId = req.body.updateP_id
-
+      const updateP_id = req.body.updateP_id
       const data = {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
@@ -350,18 +298,22 @@ router.post(
         phone: req.body.phone,
         address: req.body.address,
         role: req.body.role,
-        image: req.file ? req.file.filename : null,
       }
 
-      console.log(userId)
+      if (req.file) {
+        data.image = req.file.filename
+      }
+
+      console.log(updateP_id)
       console.log(data)
 
-      const updatedUser = await User.findByIdAndUpdate(userId, data, {
+      const updatedUser = await User.findByIdAndUpdate(updateP_id, data, {
         useFindAndModify: false,
       })
+
       res.json(updatedUser)
     } catch (err) {
-      console.error('Error updating profile:', err)
+      console.error('Error updating product:', err)
       res.status(500).send('Internal Server Error')
     }
   }
