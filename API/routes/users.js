@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 // const mongoose = require('mongoose');
 const User = require('../models/User.js')
+const secret = 'Fullstack' // ใช้ secret key เดียวกันกับที่ใช้ในการสร้าง token
+const jwt = require('jsonwebtoken')
 
 router.get('/', (req, res, next) => {
   User.find()
@@ -44,28 +46,26 @@ router.get('/deleteU/:id', (req, res, next) => {
     })
 })
 
-
 router.post('/editU/:id', async (req, res) => {
   try {
-    const userId = req.params.id;
-    const editId = req.body.edit_id;
+    const userId = req.params.id
+    const editId = req.body.edit_id
 
     const updatedUser = await User.findOneAndUpdate(
       { _id: userId },
       { $set: { id: editId } },
       { new: true }
-    ).exec();
+    ).exec()
 
     if (!updatedUser) {
-      return res.status(404).send('User not found');
+      return res.status(404).send('User not found')
     }
-    res.redirect(`/update-profile-user?id=${updatedUser._id}`); // Changed to redirect to /update-profile-user
+    res.redirect(`/update-profile-user?id=${updatedUser._id}`) // Changed to redirect to /update-profile-user
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Internal Server Error');
+    console.error(err)
+    res.status(500).send('Internal Server Error')
   }
-});
-
+})
 
 // router.post('/updateU/:id', async (req, res, next) => {
 //   const userId = req.params.userId;
@@ -196,16 +196,25 @@ router.delete('/:id', (req, res, next) => {
 })
 
 router.post('/insertReact', upload.single('image'), async (req, res) => {
-  const { username, password, firstname, lastname, email, phone, address, role } = req.body;
+  const {
+    username,
+    password,
+    firstname,
+    lastname,
+    email,
+    phone,
+    address,
+    role,
+  } = req.body
 
   try {
-    const existingUser = await User.findOne({ username });
+    const existingUser = await User.findOne({ username })
     if (existingUser) {
       return res.status(400).json({
         success: false,
         message: 'ชื่อผู้ใช้นี้ถูกใช้แล้ว โปรดเลือกชื่อผู้ใช้อื่น',
-        data: null, 
-      });
+        data: null,
+      })
     }
     const imageName = req.file ? req.file.filename : null
 
@@ -218,20 +227,22 @@ router.post('/insertReact', upload.single('image'), async (req, res) => {
       address,
       role,
       image: imageName,
-    });
+    })
 
-    const savedUser = await newUser.save();
+    const savedUser = await newUser.save()
 
     res.json({
       success: true,
       message: `User registration successful for ${username}`,
       data: savedUser,
-    });
+    })
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, message: 'Server error', data: null });
+    console.error(error)
+    res
+      .status(500)
+      .json({ success: false, message: 'Server error', data: null })
   }
-});
+})
 
 // router.post('/updateProfile', upload.single('image'), async (req, res) => {
 //   const { username, firstname, lastname, phone, address } = req.body;
@@ -276,39 +287,84 @@ router.post('/insertReact', upload.single('image'), async (req, res) => {
 //   }
 // });
 
-router.post('/updateProfile', upload.single('image'), async (req, res, next) => {
-  try {
-    const updateP_id = req.body.updateP_id;
-    const data = {
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
-      email: req.body.email,
-      phone: req.body.phone,
-      address: req.body.address,
-      role: req.body.role,
-    };
+// router.post(
+//   '/updateProfile',
+//   upload.single('image'),
+//   async (req, res, next) => {
+//     try {
+//       const updateP_id = req.body.updateP_id
+//       const data = {
+//         firstname: req.body.firstname,
+//         lastname: req.body.lastname,
+//         email: req.body.email,
+//         phone: req.body.phone,
+//         address: req.body.address,
+//         role: req.body.role,
+//       }
 
-    if (req.file) {
-      data.image = req.file.filename;
+//       if (req.file) {
+//         data.image = req.file.filename
+//       }
+
+//       console.log(updateP_id)
+//       console.log(data)
+
+//       const updatedUser = await User.findByIdAndUpdate(updateP_id, data, {
+//         useFindAndModify: false,
+//       })
+
+//       res.json(updatedUser)
+//     } catch (err) {
+//       console.error('Error updating product:', err)
+//       res.status(500).send('Internal Server Error')
+//     }
+//   }
+// )
+
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+
+  if (token == null) return res.sendStatus(401) // ไม่พบ token
+
+  jwt.verify(token, secret, (err, user) => {
+    if (err) return res.sendStatus(403) // token ไม่ถูกต้องหรือหมดอายุ
+    req.user = user
+    next() // ตรวจสอบผ่าน
+  })
+}
+
+// Route สำหรับการอัปเดตข้อมูลผู้ใช้
+// ถอด authenticateToken ออกจาก route
+router.post(
+  '/updateProfile',
+  upload.single('image'),
+  async (req, res, next) => {
+    try {
+      const userId = req.body.updateP_id
+
+      const data = {
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        email: req.body.email,
+        phone: req.body.phone,
+        address: req.body.address,
+        role: req.body.role,
+        image: req.file ? req.file.filename : null,
+      }
+
+      console.log(userId)
+      console.log(data)
+
+      const updatedUser = await User.findByIdAndUpdate(userId, data, {
+        useFindAndModify: false,
+      })
+      res.json(updatedUser)
+    } catch (err) {
+      console.error('Error updating profile:', err)
+      res.status(500).send('Internal Server Error')
     }
-
-    console.log(updateP_id);
-    console.log(data);
-
-    const updatedUser = await User.findByIdAndUpdate(updateP_id, data, { useFindAndModify: false });
-
-    res.json(updatedUser);
-  } catch (err) {
-    console.error('Error updating product:', err);
-    res.status(500).send('Internal Server Error');
   }
-});
-
-
-
-
-
-
-
+)
 
 module.exports = router

@@ -12,7 +12,7 @@ const expressSession = require('express-session')
 const MemoryStore = require('memorystore')(expressSession)
 const cookieParser = require('cookie-parser')
 
-app.use(cors());
+app.use(cors())
 app.use(cookieParser())
 
 app.use(
@@ -146,7 +146,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
     res.json({ message: 'File uploaded successfully', file: req.file })
   } else {
     res.status(400).send('File upload failed')
-  } 
+  }
 })
 
 const path = require('path')
@@ -168,24 +168,19 @@ app.get('/images-product/:filename', (req, res) => {
 })
 
 app.get('/images-user/:filename', (req, res) => {
-  const filename = req.params.filename;
-  const imagePath = path.join(
-    __dirname, 'public', 
-    'images', 
-    'users', 
-    filename);
-  sendImage(imagePath, res);
-});
+  const filename = req.params.filename
+  const imagePath = path.join(__dirname, 'public', 'images', 'users', filename)
+  sendImage(imagePath, res)
+})
 
 function sendImage(imagePath, res) {
   res.sendFile(imagePath, (err) => {
     if (err) {
-      console.log(err);
-      res.status(404).send('Image not found');
+      console.log(err)
+      res.status(404).send('Image not found')
     }
-  });
+  })
 }
-
 
 // app.post('/updateProfile', upload.single('image'), async (req, res) => {
 //   const { username, firstname, lastname, phone, address } = req.body;
@@ -229,7 +224,6 @@ function sendImage(imagePath, res) {
 //     });
 //   }
 // });
-
 
 //api product
 const products = require('./routes/products')
