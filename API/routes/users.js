@@ -218,6 +218,7 @@ router.post('/insertReact', upload.single('image'), async (req, res) => {
 
     const newUser = new User({
       username,
+      password,
       firstname,
       lastname,
       email,
