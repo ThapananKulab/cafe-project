@@ -202,4 +202,31 @@ router.post('/insertReact', async (req, res) => {
   }
 })
 
+router.post('/updateRaw/:rawId', async (req, res) => {
+  const rawId = req.params.rawId
+  const { rawname, rawquantity, rawunit, rawunitprice } = req.body
+  const data = {
+    rawname,
+    rawquantity,
+    rawunit,
+    rawunitprice,
+  }
+
+  try {
+    const updatedRaw = await Raw.findByIdAndUpdate(rawId, data, {
+      new: true,
+      runValidators: true,
+    })
+
+    if (!updatedRaw) {
+      return res.status(404).send('Raw material not found')
+    }
+
+    res.json(updatedRaw)
+  } catch (err) {
+    console.error('Error updating raw material:', err)
+    res.status(500).send('Internal Server Error')
+  }
+})
+
 module.exports = router
