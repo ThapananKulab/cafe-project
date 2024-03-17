@@ -14,6 +14,8 @@ const cookieParser = require('cookie-parser')
 
 app.use(cors())
 app.use(cookieParser())
+app.use(bodyParser.json())
+app.use(express.json())
 
 app.use(
   expressSession({
@@ -240,3 +242,13 @@ app.use('/api/users', users)
 //Api add Raw
 const raws = require('./routes/raws')
 app.use('/api/raws', raws)
+
+//Api add Menu
+const menus = require('./routes/menus')
+app.use('/api/menus', menus)
+
+const inventoryitems = require('./routes/inventoryitems')
+app.use('/api/inventoryitems', inventoryitems)
+
+const recipes = require('./routes/recipes')
+app.use('/api/recipes', recipes)
