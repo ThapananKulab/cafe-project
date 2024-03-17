@@ -321,4 +321,36 @@ router.post(
   }
 )
 
+router.post('/updateUser/:userId', upload.single('image'), async (req, res) => {
+  const userId = req.params.userId
+  const { username, email, phone, address, role } = req.body
+  const data = {
+    username,
+    email,
+    phone,
+    address,
+    role,
+  }
+
+  if (req.file) {
+    data.image = req.file.filename
+  }
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(userId, data, {
+      new: true,
+      runValidators: true,
+    })
+
+    if (!updatedUser) {
+      return res.status(404).send('User not found')
+    }
+
+    res.json(updatedUser)
+  } catch (err) {
+    console.error('Error updating user:', err)
+    res.status(500).send('Internal Server Error')
+  }
+})
+
 module.exports = router
