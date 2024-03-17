@@ -359,4 +359,43 @@ router.post(
   }
 )
 
+router.post('/increaseQuantity/:productId', async (req, res) => {
+  const { productId } = req.params
+  const { increaseBy } = req.body // How much to increase the quantity by
+
+  try {
+    const product = await Product.findById(productId)
+    if (!product) {
+      return res.status(404).send('Product not found')
+    }
+
+    product.quantity += increaseBy
+    await product.save()
+
+    res.status(200).json(product)
+  } catch (error) {
+    res.status(500).send(error.message)
+  }
+})
+
+router.post('/decreaseQuantity/:productId', async (req, res) => {
+  const { productId } = req.params
+  const { decreaseBy } = req.body // How much to decrease the quantity by
+
+  try {
+    const product = await Product.findById(productId)
+    if (!product) {
+      return res.status(404).send('Product not found')
+    }
+
+    // Ensure the quantity doesn't drop below 0
+    product.quantity = Math.max(0, product.quantity - decreaseBy)
+    await product.save()
+
+    res.status(200).json(product)
+  } catch (error) {
+    res.status(500).send(error.message)
+  }
+})
+
 module.exports = router
