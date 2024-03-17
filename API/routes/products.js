@@ -173,6 +173,30 @@ router.post('/editU/:id', async (req, res) => {
   }
 })
 
+router.post('/edit/:id', async (req, res) => {
+  try {
+    const productId = req.params.id
+    const { productname, type, price } = req.body
+    const updatedProduct = await Product.findOneAndUpdate(
+      { _id: productId },
+      { $set: { productname, type, price } },
+      { new: true }
+    ).exec()
+
+    if (!updatedProduct) {
+      return res.status(404).json({ message: 'Product not found' })
+    }
+
+    res.json({
+      message: 'Product updated successfully',
+      product: updatedProduct,
+    })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ message: 'Internal Server Error' })
+  }
+})
+
 // Multer Images Admin and insert
 const multer = require('multer')
 const storage = multer.diskStorage({
@@ -302,5 +326,37 @@ router.post('/insertReact', upload.single('image'), async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' })
   }
 })
+
+router.post(
+  '/updateProduct/:productId',
+  upload.single('image'),
+  async (req, res) => {
+    const productId = req.params.productId
+    const { productname, type, price } = req.body
+    const data = {
+      productname,
+      type,
+      price,
+    }
+
+    if (req.file) {
+      data.image = req.file.filename
+    }
+    try {
+      const updatedProduct = await Product.findByIdAndUpdate(productId, data, {
+        new: true,
+        runValidators: true,
+      })
+
+      if (!updatedProduct) {
+        return res.status(404).send('Product not found')
+      }
+      res.json(updatedProduct)
+    } catch (err) {
+      console.error('Error updating product:', err)
+      res.status(500).send('Internal Server Error')
+    }
+  }
+)
 
 module.exports = router

@@ -300,9 +300,10 @@ router.post(
         address: req.body.address,
         role: req.body.role,
       }
-
+      console.log('Product ID:', req.params.productId)
+      console.log('Body:', req.body)
       if (req.file) {
-        data.image = req.file.filename
+        console.log('Received file with filename:', req.file.filename)
       }
 
       console.log(updateP_id)
