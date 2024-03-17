@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
-const Menu = require('../models/menu.js')
+const Menu = require('../models/Menu')
 //
 router.post('/addMenu', async (req, res) => {
   const menuItem = new Menu({
