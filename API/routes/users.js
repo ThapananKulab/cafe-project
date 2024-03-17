@@ -323,9 +323,12 @@ router.post(
 
 router.post('/updateUser/:userId', upload.single('image'), async (req, res) => {
   const userId = req.params.userId
-  const { username, email, phone, address, role } = req.body
+  const { username, firstname, lastname, email, phone, address, role } =
+    req.body
   const data = {
     username,
+    firstname,
+    lastname,
     email,
     phone,
     address,
