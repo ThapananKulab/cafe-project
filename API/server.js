@@ -73,7 +73,7 @@ app.post('/api/login', jsonParser, async (req, res) => {
             email: user.email,
             phone: user.phone,
             address: user.address,
-            image: user.image.url,
+            image: user.image ? { url: user.image } : null,
           },
         }
         var token = jwt.sign(payload, secret, {
