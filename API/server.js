@@ -257,3 +257,6 @@ app.use('/api/recipes', recipes)
 
 const test = require('./routes/test')
 app.use('/api/test', test)
+
+const employees = require('./routes/employees')
+app.use('/api/employees', employees)

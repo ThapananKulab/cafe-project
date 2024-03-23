@@ -4,7 +4,7 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary')
 const express = require('express')
 const router = express.Router()
 const multer = require('multer')
-const Product = require('../models/Product')
+const Product = require('../models/Product.js')
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
@@ -14,20 +14,19 @@ const storage = new CloudinaryStorage({
 })
 
 const parser = multer({ storage: storage })
-
 router.post('/createProduct', parser.single('image'), async (req, res) => {
   const { productname, type, price, quantity } = req.body
-  const imageUrl = req.file.path // หรือ req.file.url ขึ้นอยู่กับสิ่งที่ multer-storage-cloudinary ส่งกลับ
+  const imageUrl = req.file.path
 
   try {
     const product = await Product.create({
       productname,
       type,
-      price: Number(price), // ตรวจสอบและแปลงเป็น Number หากจำเป็น
+      price: Number(price),
       image: {
         url: imageUrl,
       },
-      quantity: Number(quantity), // ตรวจสอบและแปลงเป็น Number หากจำเป็น
+      quantity: Number(quantity),
     })
     res.status(201).json({
       success: true,
