@@ -227,6 +227,8 @@ function sendImage(imagePath, res) {
 //   }
 // });
 
+require('dotenv').config()
+
 //api product
 const products = require('./routes/products')
 app.use('/api/products', products)
@@ -252,3 +254,6 @@ app.use('/api/inventoryitems', inventoryitems)
 
 const recipes = require('./routes/recipes')
 app.use('/api/recipes', recipes)
+
+const test = require('./routes/test')
+app.use('/api/test', test)

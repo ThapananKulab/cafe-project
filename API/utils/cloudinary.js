@@ -1,5 +1,4 @@
 const cloudinary = require('cloudinary').v2
-require('dotenv').config() // Ensure this is called if not already somewhere in your app initialization
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
