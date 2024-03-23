@@ -7,11 +7,27 @@ const User = require('../models/User.js')
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: {
-    folder: 'users',
+  params: async (req, file) => {
+    let folder = 'users'
+    let public_id = file.filename // Use file's original name as the public id by default
+
+    if (req.method === 'POST' && req.path === '/update-profile') {
+      const user = await User.findById(req.body.updateP_id)
+      if (user && user.image) {
+        // Extract public_id from the existing image URL
+        const imageParts = user.image.split('/')
+        public_id = imageParts[imageParts.length - 1].split('.')[0]
+        folder = imageParts[imageParts.length - 2]
+      }
+    }
+
+    return {
+      folder,
+      public_id,
+      overwrite: true,
+    }
   },
 })
-
 const parser = multer({ storage: storage })
 
 router.post('/add-user', parser.single('image'), async (req, res) => {
@@ -60,6 +76,38 @@ router.post('/add-user', parser.single('image'), async (req, res) => {
     res
       .status(500)
       .json({ success: false, message: 'Server error', data: null })
+  }
+})
+
+router.post('/update-profile', parser.single('image'), async (req, res) => {
+  const updateP_id = req.body.updateP_id
+  const { firstname, lastname, email, phone, address, role } = req.body
+
+  const updateData = {
+    ...(firstname && { firstname }),
+    ...(lastname && { lastname }),
+    ...(email && { email }),
+    ...(phone && { phone }),
+    ...(address && { address }),
+    ...(role && { role }),
+
+    ...(req.file && { image: req.file.path }),
+  }
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(updateP_id, updateData, {
+      new: true,
+      runValidators: true,
+    })
+
+    if (!updatedUser) {
+      return res.status(404).send('User not found')
+    }
+
+    res.json(updatedUser)
+  } catch (err) {
+    console.error('Error updating user:', err)
+    res.status(500).send('Internal Server Error')
   }
 })
 
