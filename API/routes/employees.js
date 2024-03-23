@@ -25,7 +25,7 @@ router.post('/add-user', parser.single('image'), async (req, res) => {
     address,
     role,
   } = req.body
-  const imageUrl = req.file.path
+  const imageUrl = req.file ? req.file.path : ''
 
   try {
     const existingUser = await User.findOne({ username })
@@ -46,9 +46,7 @@ router.post('/add-user', parser.single('image'), async (req, res) => {
       phone,
       address,
       role,
-      image: {
-        url: imageUrl,
-      },
+      image: imageUrl,
     })
     const savedUser = await newUser.save()
 
