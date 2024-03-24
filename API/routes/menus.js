@@ -2,24 +2,44 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 const Menu = require('../models/Menu.js')
+const cloudinary = require('../utils/cloudinary.js')
+const { CloudinaryStorage } = require('multer-storage-cloudinary')
+const multer = require('multer')
 
-////
-router.post('/addMenu', async (req, res) => {
-  const menuItem = new Menu({
-    name: req.body.name,
-    description: req.body.description,
-    price: req.body.price,
-    recipe: req.body.recipe,
-    image: req.body.image,
-  })
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'menus',
+  },
+})
+
+const parser = multer({ storage: storage })
+
+router.post('/addMenu', parser.single('image'), async (req, res) => {
+  const { name, description, price, recipe } = req.body
+  const imageUrl = req.file.path
 
   try {
+    const menuItem = new Menu({
+      name,
+      description,
+      price,
+      recipe,
+      image: imageUrl,
+    })
+
     const savedItem = await menuItem.save()
-    res.status(201).send(savedItem)
+    res.status(201).json({
+      success: true,
+      menuItem: savedItem,
+    })
   } catch (error) {
-    res.status(400).send(error)
+    console.error(error)
+    res.status(400).json({ success: false, message: 'Error adding menu item' })
   }
 })
+
+module.exports = router
 
 router.get('/allMenus', async (req, res) => {
   try {
