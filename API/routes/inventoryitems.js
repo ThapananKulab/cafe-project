@@ -48,4 +48,25 @@ router.delete('/delete/:id', async (req, res) => {
   }
 })
 
+router.patch('/update-stock/:id', async (req, res) => {
+  const { id } = req.params
+  const { adjustment } = req.body // ค่า adjustment ที่ระบุการเพิ่มหรือลดจำนวน
+
+  try {
+    const item = await InventoryItem.findById(id)
+    if (!item) {
+      return res.status(404).json({ message: 'No item found with that ID.' })
+    }
+
+    // เรียกใช้ method adjustStock สำหรับ item นั้น
+    await item.adjustStock(adjustment)
+
+    res.status(200).json({
+      message: `Stock for ${item.name} adjusted by ${adjustment}. New stock is ${item.quantityInStock}.`,
+    })
+  } catch (error) {
+    res.status(400).json({ message: error.message })
+  }
+})
+
 module.exports = router
