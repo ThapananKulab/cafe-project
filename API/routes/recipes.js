@@ -4,7 +4,10 @@ const Recipe = require('../models/Recipe.js')
 //
 router.get('/all', async (req, res) => {
   try {
-    const recipes = await Recipe.find()
+    // Here's where we modify the find query to include populate
+    const recipes = await Recipe.find({}).populate(
+      'ingredients.inventoryItemId'
+    )
     res.json(recipes)
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -12,12 +15,12 @@ router.get('/all', async (req, res) => {
 })
 
 router.post('/add', async (req, res) => {
-  console.log(req.body) // Debug: Log the incoming request body
+  console.log(req.body) // Debug
 
   const recipe = new Recipe({
     name: req.body.name,
     ingredients: req.body.ingredients,
-    method: req.body.method,
+    // No method field here
   })
 
   try {
@@ -28,7 +31,5 @@ router.post('/add', async (req, res) => {
     res.status(400).json({ message: err.message })
   }
 })
-
-// More routes can be added
 
 module.exports = router

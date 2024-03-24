@@ -21,4 +21,13 @@ router.post('/addMenu', async (req, res) => {
   }
 })
 
+router.get('/allMenus', async (req, res) => {
+  try {
+    const menuItems = await Menu.find().populate('recipe') // Use .populate('recipe') if you want to include recipe details based on the recipe ID
+    res.status(200).json(menuItems)
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+})
+
 module.exports = router

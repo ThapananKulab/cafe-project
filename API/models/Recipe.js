@@ -12,6 +12,7 @@ const recipeSchema = new mongoose.Schema({
       quantity: { type: Number, required: true },
     },
   ],
-  // method: { type: String },
+  // method field removed
 })
+
 module.exports = mongoose.model('Recipe', recipeSchema)
