@@ -227,28 +227,28 @@ function sendImage(imagePath, res) {
 //   }
 // });
 
-const QRCode = require('qrcode')
+// const QRCode = require('qrcode')
 
-app.get('/api/generate-qr', async (req, res) => {
-  try {
-    const { phoneNumber, amount } = req.query
-    const payload = thPromptpayQr.generatePayload(phoneNumber, {
-      amount: parseFloat(amount),
-    })
+// app.get('/api/generate-qr', async (req, res) => {
+//   try {
+//     const { phoneNumber, amount } = req.query
+//     const payload = thPromptpayQr.generatePayload(phoneNumber, {
+//       amount: parseFloat(amount),
+//     })
 
-    // Generate QR Code
-    const qrCodeDataURL = await QRCode.toDataURL(payload)
+//     // Generate QR Code
+//     const qrCodeDataURL = await QRCode.toDataURL(payload)
 
-    res.setHeader('Content-Type', 'image/png')
-    // Convert data URL to buffer
-    const base64Data = qrCodeDataURL.split(';base64,').pop()
-    const imgBuffer = Buffer.from(base64Data, 'base64')
-    res.send(imgBuffer)
-  } catch (err) {
-    console.error(err)
-    res.status(500).send('Error generating QR code')
-  }
-})
+//     res.setHeader('Content-Type', 'image/png')
+//     // Convert data URL to buffer
+//     const base64Data = qrCodeDataURL.split(';base64,').pop()
+//     const imgBuffer = Buffer.from(base64Data, 'base64')
+//     res.send(imgBuffer)
+//   } catch (err) {
+//     console.error(err)
+//     res.status(500).send('Error generating QR code')
+//   }
+// })
 
 require('dotenv').config()
 
